@@ -67,6 +67,8 @@ http://sites.stanford.edu/jsa-content
       'ea1a02a9-0564-4448-82f3-09fb1d0ae8c1',   // news item
     );
 
+    $endpoint = 'https://mysite.com/endpointname'; 
+
     $importer = new SitesContentImporter();
     $importer->set_endpoint($endpoint);
     $importer->add_import_content_type($content_types);
