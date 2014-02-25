@@ -7,6 +7,22 @@
  * @author Shea McKinney <sheamck@stanford.edu>
  */
 
+require_once "ImporterFieldProcessor.php";
+require_once "ImporterFieldProcessorDatetime.php";
+require_once "ImporterFieldProcessorEmail.php";
+require_once "ImporterFieldProcessorFieldCollection.php";
+require_once "ImporterFieldProcessorFile.php";
+require_once "ImporterFieldProcessorImage.php";
+require_once "ImporterFieldProcessorInterface.php";
+require_once "ImporterFieldProcessorLinkField.php";
+require_once "ImporterFieldProcessorListText.php";
+require_once "ImporterFieldProcessorNumberInteger.php";
+require_once "ImporterFieldProcessorTaxonomyTermReference.php";
+require_once "ImporterFieldProcessorText.php";
+require_once "ImporterFieldProcessorTextLong.php";
+require_once "ImporterFieldProcessorTextWithSummary.php";
+
+
 /**
  * Content Importer class
  */
