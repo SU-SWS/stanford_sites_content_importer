@@ -7,6 +7,7 @@
  * @author Shea McKinney <sheamck@stanford.edu>
  */
 
+// Field processors.
 require_once "ImporterFieldProcessor.php";
 require_once "ImporterFieldProcessorDatetime.php";
 require_once "ImporterFieldProcessorEmail.php";
@@ -21,6 +22,9 @@ require_once "ImporterFieldProcessorTaxonomyTermReference.php";
 require_once "ImporterFieldProcessorText.php";
 require_once "ImporterFieldProcessorTextLong.php";
 require_once "ImporterFieldProcessorTextWithSummary.php";
+
+// Alternate importers
+include_once "SitesContentImporterViews.php";
 
 
 /**
@@ -410,8 +414,23 @@ class SitesContentImporter {
       }
     }
 
+    $this->importer_process_nodes_by_uuids($ids);
+
+  }
+
+  /**
+   * [importer_process_nodes_by_uuids description]
+   * @param  $ids
+   *         $ids[uuid] = $id_array;
+   *
+   * @return [type] [description]
+   */
+  public function importer_process_nodes_by_uuids($ids) {
     // Now we get all the node information.
     // @todo: Stop hammering the server with requests and make this better.
+
+    $endpoint = $this->get_endpoint();
+    $types = $types = $this->get_import_content_types();
 
     foreach ($ids as $uuid => $other_ids) {
 
@@ -449,10 +468,10 @@ class SitesContentImporter {
 
       // Do a quick check here to ensure that the node type we are going to process is of the types we
       // requested from the server. Somehow types we don't want are sneaking in.
-      if (!array_key_exists($node->type, $types)) {
-        // Do no process the node as it is not a valid type.
-        continue;
-      }
+      // if (!array_key_exists($node->type, $types)) {
+      //  // Do no process the node as it is not a valid type.
+      //  continue;
+      // }
 
       // Process the fields.
       $this->process_fields($node, 'node');
@@ -478,7 +497,7 @@ class SitesContentImporter {
       }
 
     }
-
   }
+
 
 }

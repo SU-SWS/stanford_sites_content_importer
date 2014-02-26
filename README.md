@@ -18,7 +18,7 @@ http://sites.stanford.edu/jsa-content
 ##Files
 
 * ImporterFieldProcessor.php
-	* Needs Description. 
+	* Needs Description.
 * ImporterFieldProcessorDatetime.php
 	* Needs Description.
 * ImporterFieldProcessorEmail.php
@@ -48,7 +48,7 @@ http://sites.stanford.edu/jsa-content
 * SitesContentImporter.php
 	* Needs Description.
 
-	
+
 ##Example Usage
 
 **Nodes:**
@@ -67,21 +67,21 @@ http://sites.stanford.edu/jsa-content
       'ea1a02a9-0564-4448-82f3-09fb1d0ae8c1',   // news item
     );
 
-    $endpoint = 'https://mysite.com/endpointname'; 
+    $endpoint = 'https://mysite.com/endpointname';
 
     $importer = new SitesContentImporter();
     $importer->set_endpoint($endpoint);
     $importer->add_import_content_type($content_types);
     $importer->add_uuid_restrictions($restrict);
     $importer->importer_content_nodes_recent_by_type();
-    
+
 **Vocabularies:**
-   
-    $endpoint = 'https://mysite.com/endpointname'; 
+
+    $endpoint = 'https://mysite.com/endpointname';
     $importer = new SitesContentImporter();
     $importer->set_endpoint($endpoint);
     $importer->import_vocabulary_trees();
-    
+
 **Beans:**
 
     $uuids = array(
@@ -91,9 +91,19 @@ http://sites.stanford.edu/jsa-content
       '5ee82af2-bfac-4584-a006-a0fb0661af34',
     );
 
-    $endpoint = 'https://mysite.com/endpointname'; 
+    $endpoint = 'https://mysite.com/endpointname';
 
     $importer = new SitesContentImporter();
     $importer->set_endpoint($endpoint);
     $importer->set_bean_uuids($uuids);
     $importer->import_content_beans();
+
+**Nodes By Views & Filters**
+
+    $filters = array('sites_products' => array('37'));
+    $view_importer = new SitesContentImporterViews();
+    $view_importer->set_endpoint($endpoint);
+    $view_importer->set_resource('content');
+    $view_importer->set_filters($filters);
+    $view_importer->import_content_by_views_and_filters();
+
