@@ -131,7 +131,7 @@ class ImporterFieldProcessorFieldCollection extends ImporterFieldProcessor {
     $fc->setHostEntity($host_type, $host);
 
     // Because FCs can have fields we need to process this as well.
-    $importer = new JumpstartSitesAcademicContentImporter();
+    $importer = new SitesContentImporter();
     $importer->set_endpoint($endpoint);
     $importer->process_fields($fc, 'field_collection_item');
 
