@@ -26,7 +26,7 @@ require_once "ImporterFieldProcessorTextWithSummary.php";
 // Property Processors.
 require_once "ImporterPropertyProcessorUid.php";
 
-// Alternate importers
+// Alternate importers.
 include_once "SitesContentImporterViews.php";
 
 
@@ -43,6 +43,7 @@ class SitesContentImporter {
   protected $bean_uuids = array();
   protected $content_types = array();
   protected $restrictions = array();
+  protected $response_format_type = ".json";
 
   /**
    * [__construct description]
@@ -50,6 +51,25 @@ class SitesContentImporter {
    */
   public function __construct() {
     // Nothing to see here.
+  }
+
+  /**
+   * [get_response_format_type description]
+   * @return [type] [description]
+   */
+  public function get_response_format_type() {
+    return $this->response_format_type;
+  }
+
+  /**
+   * [set_response_format_type description]
+   * @param string $type [description]
+   */
+  public function set_response_format_type($type = ".json") {
+    if (!is_string($type)) {
+      return FALSE;
+    }
+    $this->response_format_type = $type;
   }
 
   /**
@@ -281,6 +301,7 @@ class SitesContentImporter {
     // Endpoint will almost always be the hardcoded one.
     $endpoint = $this->get_endpoint();
     $bean_uuids = $this->get_bean_uuids();
+    $response_format_type = $this->get_response_format_type();
 
     // Get and save beans.
     $beans = array();
@@ -291,7 +312,7 @@ class SitesContentImporter {
     }
 
     foreach ($bean_uuids as $uuid) {
-      $bean_result = drupal_http_request($endpoint . "/bean/" . $uuid);
+      $bean_result = drupal_http_request($endpoint . "/bean/" . $uuid . $response_format_type);
       $bean = ($bean_result->code == "200") ? drupal_json_decode($bean_result->data) : FALSE;
 
       if (!$bean) {
@@ -336,6 +357,7 @@ class SitesContentImporter {
    */
   public function import_vocabulary_trees() {
     $endpoint = $this->get_endpoint();
+    $response_format_type = $this->get_response_format_type();
 
     // Vocabularies.
     try {
@@ -374,7 +396,7 @@ class SitesContentImporter {
       $data = "vid=" . $vocab->vid;
       // Fetch tree.
       try {
-        $tree_result = drupal_http_request($endpoint . "/taxonomy_vocabulary/getTree.json", array('method' => "POST", "data" => $data));
+        $tree_result = drupal_http_request($endpoint . "/taxonomy_vocabulary/getTree" . $response_format_type, array('method' => "POST", "data" => $data));
         $tree = ($tree_result->code == "200") ? drupal_json_decode($tree_result->data) : FALSE;
       }
       catch (Exception $e) {
@@ -417,6 +439,7 @@ class SitesContentImporter {
   public function importer_content_nodes_recent_by_type() {
     $endpoint = $this->get_endpoint();
     $types = $this->get_import_content_types();
+    $response_format_type = $this->get_response_format_type();
     $requests = array();
     $ids = array();
 
@@ -426,11 +449,11 @@ class SitesContentImporter {
         // Because of this we will want two pages of stanford_page types. The page param works so we can use that to get more.
 
         if ($machine_name == "stanford_page") {
-          $requests[$machine_name] = drupal_http_request($endpoint . "/node.json?page=0&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
-          $requests[$machine_name . "_2"] = drupal_http_request($endpoint . "/node.json?page=1&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
+          $requests[$machine_name] = drupal_http_request($endpoint . "/node" . $response_format_type . "?page=0&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
+          $requests[$machine_name . "_2"] = drupal_http_request($endpoint . "/node" . $response_format_type . "?page=1&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
         }
         else {
-          $requests[$machine_name] = drupal_http_request($endpoint . "/node.json?pagesize=50&fields=nid,uuid&parameters[type]=" . $machine_name);
+          $requests[$machine_name] = drupal_http_request($endpoint . "/node" . $response_format_type . "?pagesize=50&fields=nid,uuid&parameters[type]=" . $machine_name);
         }
 
       }
@@ -469,6 +492,7 @@ class SitesContentImporter {
 
     $endpoint = $this->get_endpoint();
     $types = $this->get_import_content_types();
+    $response_format_type = $this->get_response_format_type();
 
     foreach ($ids as $uuid => $other_ids) {
 
@@ -481,7 +505,7 @@ class SitesContentImporter {
       }
 
       try {
-        $node_request = drupal_http_request($endpoint . "/node/" . $uuid . ".json");
+        $node_request = drupal_http_request($endpoint . "/node/" . $uuid . $response_format_type);
       }
       catch(Exception $e) {
         watchdog('SitesContentImporter', 'Could not fetch node information for: ' . $uuid, array(), WATCHDOG_NOTICE);
