@@ -23,6 +23,9 @@ require_once "ImporterFieldProcessorText.php";
 require_once "ImporterFieldProcessorTextLong.php";
 require_once "ImporterFieldProcessorTextWithSummary.php";
 
+// Property Processors.
+require_once "ImporterPropertyProcessorUid.php";
+
 // Alternate importers
 include_once "SitesContentImporterViews.php";
 
@@ -198,6 +201,41 @@ class SitesContentImporter {
           $no_importer_class = "This is only here for my debugger to pick up :)";
         }
       }
+    }
+  }
+
+  /**
+   * This function processes properties of entities that
+   * are not attached fields and are not picked up by the process_fields
+   * methos. Example would be the uid field on node entities.
+   * @param  [type] $entity      [description]
+   * @param  [type] $entity_type [description]
+   * @return [type]              [description]
+   */
+  public function process_properties(&$entity, $entity_type) {
+    foreach ($entity as $property => $value) {
+
+      // skip fields.
+      if (strpos($property, 'field_') === 0) {
+        continue;
+      }
+
+      $class_name = "ImporterPropertyProcessor" . ucfirst(strtolower($property));
+
+      if (class_exists($class_name)) {
+        try {
+          $property_processor = new $class_name();
+          $property_processor->set_endpoint($this->get_endpoint());
+          $property_processor->process($entity, $entity_type, $property);
+        }
+        catch(Exception $e) {
+          // No worries. Just carry on.
+        }
+      }
+      else {
+        $no_importer_class = "This is only here for my debugger to pick up :)";
+      }
+
     }
   }
 
@@ -430,7 +468,7 @@ class SitesContentImporter {
     // @todo: Stop hammering the server with requests and make this better.
 
     $endpoint = $this->get_endpoint();
-    $types = $types = $this->get_import_content_types();
+    $types = $this->get_import_content_types();
 
     foreach ($ids as $uuid => $other_ids) {
 
@@ -475,6 +513,9 @@ class SitesContentImporter {
 
       // Process the fields.
       $this->process_fields($node, 'node');
+
+      // Process non field properties.
+      $this->process_properties($node, 'node');
 
       // Alter node to save the alias.
       $alias = FALSE;
