@@ -271,7 +271,7 @@ class SitesContentImporter {
     foreach ($entity as $field_name => $field_data) {
 
         // skip properties.
-        if (strpos($field_name, 'field_') !== 0) {
+        if (strpos($field_name, 'field_') !== 0 && $field_name !== "body") {
             continue;
         }
 
@@ -311,7 +311,7 @@ class SitesContentImporter {
     foreach ($entity as $property => $value) {
 
       // skip fields.
-      if (strpos($property, 'field_') === 0) {
+      if (strpos($property, 'field_') === 0 || $property == "body") {
         continue;
       }
 
