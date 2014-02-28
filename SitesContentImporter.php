@@ -260,6 +260,81 @@ class SitesContentImporter {
   }
 
   /**
+   * This function allows authors to declare custom field processors with the
+   * pattern ImporterFieldProcessorCustom[FieldName]
+   * @param  [type] $entity      [description]
+   * @param  [type] $entity_type [description]
+   * @return [type]              [description]
+   */
+  public function process_fields_custom(&$entity, $entity_type) {
+
+    foreach ($entity as $field_name => $field_data) {
+
+        // skip properties.
+        if (strpos($field_name, 'field_') !== 0) {
+            continue;
+        }
+
+      if (isset($entity->{$field_name})) {
+        $class_name = "ImporterFieldProcessorCustom";
+        $type_name = explode("_", $field_name);
+        foreach ($type_name as $index => $name) {
+          $class_name .= ucfirst(strtolower($name));
+        }
+        if (class_exists($class_name)) {
+          try {
+            $field_processor = new $class_name();
+            $field_processor->set_endpoint($this->get_endpoint());
+            $field_processor->process($entity, $entity_type, $field_name);
+          }
+          catch(Exception $e) {
+            // No worries. Just continue.
+            continue;
+          }
+        }
+        else {
+          $no_importer_class = "This is only here for my debugger to pick up :)";
+        }
+      }
+    }
+  }
+
+  /**
+   * This function processes properties of entities that
+   * are not attached fields and are not picked up by the process_fields
+   * methos. Example would be the uid field on node entities.
+   * @param  [type] $entity      [description]
+   * @param  [type] $entity_type [description]
+   * @return [type]              [description]
+   */
+  public function process_properties_custom(&$entity, $entity_type) {
+    foreach ($entity as $property => $value) {
+
+      // skip fields.
+      if (strpos($property, 'field_') === 0) {
+        continue;
+      }
+
+      $class_name = "ImporterPropertyProcessorCustom" . ucfirst(strtolower($property));
+
+      if (class_exists($class_name)) {
+        try {
+          $property_processor = new $class_name();
+          $property_processor->set_endpoint($this->get_endpoint());
+          $property_processor->process($entity, $entity_type, $property);
+        }
+        catch(Exception $e) {
+          // No worries. Just carry on.
+        }
+      }
+      else {
+        $no_importer_class = "This is only here for my debugger to pick up :)";
+      }
+
+    }
+  }
+
+  /**
    * Saves field collection entities.
    * This function should be called just before the host entity is saved and
    * no sooner or there will be errors on the host entity as it gets saved
@@ -337,7 +412,13 @@ class SitesContentImporter {
 
       // Instantiate the bean and process all of the fields.
       $bean = new Bean($bean);
+
       $this->process_fields($bean, 'bean');
+      $this->process_fields_custom($bean, 'bean');
+
+      // Process non field properties.
+      $this->process_properties($bean, 'bean');
+      $this->process_properties_custom($bean, 'bean');
 
       // Field Collections are awful things and can only be saved right before the entity that they are attached to is
       // saved. We stored them for later saving and must do that now.
@@ -537,9 +618,11 @@ class SitesContentImporter {
 
       // Process the fields.
       $this->process_fields($node, 'node');
+      $this->process_fields_custom($node, 'node');
 
       // Process non field properties.
       $this->process_properties($node, 'node');
+      $this->process_properties_custom($node, 'node');
 
       // Alter node to save the alias.
       $alias = FALSE;
@@ -566,3 +649,5 @@ class SitesContentImporter {
 
 
 }
+
+
