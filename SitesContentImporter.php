@@ -580,7 +580,7 @@ class SitesContentImporter {
       if ($this->is_restricted_uuid($uuid)) {
         watchdog('SitesContentImporter', 'Did not import restricted UUID: ' . $uuid, array(), WATCHDOG_NOTICE);
         if (function_exists('drush_log')) {
-          drush_log('Did not import restricted UUID: ' . $uuid, 'status');
+          drush_log('Did not import restricted UUID: ' . $uuid, 'ok');
         }
         continue;
       }
