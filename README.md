@@ -107,3 +107,12 @@ http://sites.stanford.edu/jsa-content
     $view_importer->set_filters($filters);
     $view_importer->import_content_by_views_and_filters();
 
+
+##Extending
+
+You can add your own field processors by extending the ImporterFieldProcessor
+class with your own. The naming convention that the processor looks for is:
+ImporterFieldProcessorYourFieldNameInCamelCase
+eg:
+ImporterFieldProcessorFieldDateSelect
+
