@@ -442,7 +442,7 @@ class SitesContentImporter {
 
     // Vocabularies.
     try {
-      $vocabularies_result = drupal_http_request($endpoint . "/taxonomy_vocabulary");
+      $vocabularies_result = drupal_http_request($endpoint . "/taxonomy_vocabulary" . $response_format_type);
     }
     catch(Exception $e) {
       watchdog('SitesContentImporter', 'Could Not Fetch Vocabularies', array(), WATCHDOG_ERROR);
@@ -530,8 +530,9 @@ class SitesContentImporter {
         // Because of this we will want two pages of stanford_page types. The page param works so we can use that to get more.
 
         if ($machine_name == "stanford_page") {
-          $requests[$machine_name] = drupal_http_request($endpoint . "/node" . $response_format_type . "?page=0&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
+          $requests[$machine_name]        = drupal_http_request($endpoint . "/node" . $response_format_type . "?page=0&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
           $requests[$machine_name . "_2"] = drupal_http_request($endpoint . "/node" . $response_format_type . "?page=1&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
+          $requests[$machine_name . "_3"] = drupal_http_request($endpoint . "/node" . $response_format_type . "?page=2&pagesize=20&fields=nid,uuid&parameters[type]=" . $machine_name);
         }
         else {
           $requests[$machine_name] = drupal_http_request($endpoint . "/node" . $response_format_type . "?pagesize=50&fields=nid,uuid&parameters[type]=" . $machine_name);
