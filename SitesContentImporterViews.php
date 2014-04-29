@@ -46,6 +46,15 @@ class SitesContentImporterViews extends SitesContentImporter {
     }
 
     $data = drupal_json_decode($response->data);
+
+    if (!array($data) || count($data) < 1) {
+       watchdog('SitesContentImporterViews', 'No content available', array(), WATCHDOG_NOTICE);
+      if (function_exists('drush_log')) {
+        drush_log('No content available for import by views.', 'warning');
+      }
+      return;
+    }
+
     foreach ($data as $k => $id_array) {
       $ids[$id_array['node_uuid']] = $id_array;
     }
