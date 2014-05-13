@@ -37,6 +37,10 @@ abstract class ImporterFieldProcessor {
     $this->endpoint = $endpoint;
   }
 
+  /**
+   * [get_endpoint description]
+   * @return [type] [description]
+   */
   public function get_endpoint() {
     return $this->endpoint;
   }

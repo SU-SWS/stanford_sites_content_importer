@@ -45,6 +45,7 @@ class SitesContentImporter {
   protected $restrictions = array();
   protected $restricted_vocabularies = array();
   protected $response_format_type = ".json";
+  protected $registry = array('property' => array(), 'field' => array());
 
   /**
    * [__construct description]
@@ -191,6 +192,65 @@ class SitesContentImporter {
     return in_array($uuid, $restrictions);
   }
 
+  /**
+   * [get_property_registry description]
+   * @return [type] [description]
+   */
+  protected function get_property_registry() {
+    return $this->registry['property'];
+  }
+
+  /**
+   * [get_field_registry description]
+   * @return [type] [description]
+   */
+  protected function get_field_registry() {
+    return $this->registry['field'];
+  }
+
+  /**
+   * Sets the processor registry
+   * @param [type] $type  [description]
+   * @param [type] $value [description]
+   */
+  protected function set_registry($type, $value) {
+    $this->registry[$type] = $value;
+  }
+
+  /**
+   * register a property processor class.
+   * @param array 'key' => 'value' where key is the name of the property and
+   * value is the name of the php class to process it.
+   * eg: array(
+   * 'status' => 'myPropertyProcessorStatus'
+   * 'author' => 'myPropertyProcessorAuthor'
+   * );
+   */
+  public function add_property_processor($values = array()) {
+    $prop_reg = $this->get_property_registry();
+    foreach ($values as $property => $processor) {
+      $prop_reg[$property][] = $processor;
+    }
+    $this->set_registry('property', $prop_reg);
+  }
+
+  /**
+   * register a field processor class.
+   * @param array 'key' => 'value' where key is the name of the field and
+   * value is the name of the php class to process it.
+   * eg: array(
+   * 'field_something_that' => 'myFieldProcessorThing'
+   * 'field_other_field' => 'myOtherFieldProcessorThingy'
+   * );
+   */
+  public function add_field_processor($values = array()) {
+    $field_reg = $this->get_field_registry();
+    foreach ($values as $field => $processor) {
+      $prop_reg[$field][] = $processor;
+    }
+    $this->set_registry('field', $field_reg);
+  }
+
 
   /**
    * [process_fields description]
@@ -200,6 +260,8 @@ class SitesContentImporter {
    */
   public function process_fields(&$entity, $entity_type) {
     $fields = field_info_field_map();
+    $field_reg = $this->get_field_registry();
+
     foreach ($fields as $field_name => $field_info) {
       if (isset($entity->{$field_name})) {
         $class_name = "ImporterFieldProcessor";
@@ -218,6 +280,20 @@ class SitesContentImporter {
             continue;
           }
         }
+        else if (isset($field_reg[$field_name])) {
+          // If there are registered field processors then loop through them.
+          foreach ($field_reg[$field_name] as $processor_name) {
+
+            if (!class_exists($processor_name)) {
+              throw new Exception("Could not find PHP class " . $processor_name);
+            }
+
+            $field_processor = new $processor_name();
+            $field_processor->set_endpoint($this->get_endpoint());
+            $field_processor->process($entity, $entity_type, $field_name);
+
+          }
+        }
         else {
           $no_importer_class = "This is only here for my debugger to pick up :)";
         }
@@ -234,6 +310,8 @@ class SitesContentImporter {
    * @return [type]              [description]
    */
   public function process_properties(&$entity, $entity_type) {
+    $prop_reg = $this->get_property_registry();
+
     foreach ($entity as $property => $value) {
 
       // skip fields.
@@ -251,6 +329,20 @@ class SitesContentImporter {
         }
         catch(Exception $e) {
           // No worries. Just carry on.
+        }
+      }
+      else if (isset($prop_reg[$property])) {
+        // If there are registered field processors then loop through them.
+        foreach ($prop_reg[$property] as $processor_name) {
+
+          if (!class_exists($processor_name)) {
+            throw new Exception("Could not find PHP class " . $processor_name);
+          }
+
+          $property_processor = new $processor_name();
+          $property_processor->set_endpoint($this->get_endpoint());
+          $property_processor->process($entity, $entity_type, $property);
+
         }
       }
       else {
