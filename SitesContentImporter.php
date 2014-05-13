@@ -43,6 +43,7 @@ class SitesContentImporter {
   protected $bean_uuids = array();
   protected $content_types = array();
   protected $restrictions = array();
+  protected $restricted_vocabularies = array();
   protected $response_format_type = ".json";
 
   /**
@@ -433,6 +434,35 @@ class SitesContentImporter {
   }
 
   /**
+   * [add_restricted_vocabularies description]
+   * @param array $restrictions [description]
+   */
+  public function add_restricted_vocabularies($restrictions = array()) {
+    if (!is_array($restrictions)) {
+      throw new Exception("Restriction parameter is not an array");
+    }
+    $this->restricted_vocabularies = array_merge($this->restricted_vocabularies, $restrictions);
+  }
+
+  /**
+   * Returns the array of restricted vocabulary machine names
+   * @return [type] [description]
+   */
+  public function get_restricted_vocabularies() {
+    return $this->restricted_vocabularies;
+  }
+
+  /**
+   * Tests to see if a machine name is in the restricted vocabularies.
+   * @param  [string]  $machine_name [the machine name to test against]
+   * @return boolean true if restricted
+   */
+  public function is_restricted_vocabulary($machine_name) {
+    $restrictions = $this->get_restricted_vocabularies();
+    return in_array($machine_name, $restrictions);
+  }
+
+  /**
    * [import_vocabulary_trees description]
    * @return [type] [description]
    */
@@ -466,10 +496,13 @@ class SitesContentImporter {
     // One save the vocab.
     // Two get the terms.
     foreach ($vocabularies as $index => $vocab) {
-
-      // We already have tags!
       $vocab = (object) $vocab;
-      if ($vocab->machine_name == "tags") {
+
+      if ($this->is_restricted_vocabulary($vocab->machine_name)) {
+        watchdog('SitesContentImporter', 'Did not import restricted vocabulary: ' . $vocab->machine_name, array(), WATCHDOG_NOTICE);
+        if (function_exists('drush_log')) {
+          drush_log('Did not import restricted vocabulary: ' . $vocab->machine_name, 'ok');
+        }
         continue;
       }
 
