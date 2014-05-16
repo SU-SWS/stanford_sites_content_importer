@@ -1,7 +1,8 @@
 # Stanford Webservices Content Importer
 
-@author <sheamck@stanford.edu> Shea McKinney
+@version 7.x-1.0-alpha2
 
+@author <sheamck@stanford.edu> Shea McKinney
 
 ##What does this do?
 
@@ -115,4 +116,15 @@ class with your own. The naming convention that the processor looks for is:
 ImporterFieldProcessorYourFieldNameInCamelCase
 eg:
 ImporterFieldProcessorFieldDateSelect
+
+
+You can also register a field or property processor to run by using either:
+    $importer->add_property_processor(array('property_name' => 'PHPClass'));
+    $importer->add_field_processor(array('field_name' => 'PHPClass'));
+
+PHPClass needs to be a field or property processor that extends ImporterFieldProcessor and has the process() method.
+
+    require_once "ImporterPropertyProcessorTrimAlias.php";
+    $view_importer->add_property_processor(array('url_alias' => 'ImporterPropertyProcessorTrimAlias'));
+
 
