@@ -119,6 +119,7 @@ ImporterFieldProcessorFieldDateSelect
 
 
 You can also register a field or property processor to run by using either:
+
     $importer->add_property_processor(array('property_name' => 'PHPClass'));
     $importer->add_field_processor(array('field_name' => 'PHPClass'));
 
