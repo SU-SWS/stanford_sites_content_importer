@@ -437,6 +437,11 @@ class SitesContentImporter {
     $field_collections = &drupal_static('ImporterFieldProcessorFieldCollection', array());
     $uuid_map = array();
     foreach ($field_collections as $k => $fc) {
+
+      if (!is_object($fc)) {
+        continue;
+      }
+
       $fc->save();
       $uuid_map[$fc->uuid] = $fc;
       unset($field_collections[$k]);
