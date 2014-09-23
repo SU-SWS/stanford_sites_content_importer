@@ -116,12 +116,21 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
     $pend = parse_url($endpoint);
     $puri = parse_url($file->uri);
 
+    // We shouldnt need this but for some reason filename is getting extra bits.
+    $puri = str_replace("/", "", $puri);
+
     $expl = explode("/", $pend['path']);
     array_pop($expl);
     $base_path = implode("/", $expl);
 
     unset($puri['scheme']);
     $file_path = implode('/', $puri);
+
+    $basename = drupal_basename($file->uri);
+    $directory = str_replace($basename, "", $file->uri);
+    if (!is_dir($directory)) {
+      file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
+    }
 
     $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $file_path;
 
