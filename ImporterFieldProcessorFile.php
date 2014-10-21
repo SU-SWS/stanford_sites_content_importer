@@ -60,7 +60,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
           if (function_exists('drush_log')) {
             drush_log($e->getMessage(), 'error');
           }
-          $files[$uuid] == FALSE;
+          $files[$uuid] = FALSE;
           continue;
         }
         $files[$uuid] = $file;
@@ -84,6 +84,9 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
         else {
           $file->display = 0;
           $entity->{$field_name}[$lang][$k] = (array) $file;
+          $title = $entity_type == "field_collection_item" ? $entity->hostEntity()->title : $entity->title;
+          $entity->{$field_name}[$lang][$k]['alt'] = $title;
+          $entity->{$field_name}[$lang][$k]['title'] = $title;
         }
 
       }
@@ -135,6 +138,9 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
     $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $file_path;
 
     system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
+
+    $file->alt = $file->filename;
+    $file->title = $file->filename;
 
     file_save($file);
 
