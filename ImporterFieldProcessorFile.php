@@ -84,8 +84,9 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
         else {
           $file->display = 0;
           $entity->{$field_name}[$lang][$k] = (array) $file;
-          $title = $entity_type == "field_collection_item" ? $entity->hostEntity()->title : $entity->title;
-          $entity->{$field_name}[$lang][$k]['alt'] = $title;
+          $alt = !empty($field[$lang][$k]['alt']) ? $field[$lang][$k]['alt'] : $file->filename;
+          $title = !empty($field[$lang][$k]['title']) ? $field[$lang][$k]['title'] : $alt;
+          $entity->{$field_name}[$lang][$k]['alt'] = $alt;
           $entity->{$field_name}[$lang][$k]['title'] = $title;
         }
 
