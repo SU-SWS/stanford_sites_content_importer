@@ -1,6 +1,13 @@
 # Stanford Sites Content Importer
 -------------------------------------------
 
+7.x-1.0-alpha3 2014-10-23
+-------------------------
+- $field_collection->save() protection for field collection items that fail to be imported
+- Fixed bug where file was not in root of the files directory
+- Added alt and title to images
+- Preserve the alt and title information
+
 7.x-1.0-alpha2 2014-05-16
 -------------------------------------------
 - Added field and property processor registration system
