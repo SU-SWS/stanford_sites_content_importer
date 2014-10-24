@@ -84,7 +84,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
         else {
           $file->display = 0;
           $entity->{$field_name}[$lang][$k] = (array) $file;
-          $alt = !empty($field[$lang][$k]['alt']) ? $field[$lang][$k]['alt'] : $file->filename;
+          $alt = !empty($field[$lang][$k]['alt']) ? $field[$lang][$k]['alt'] : "";
           $title = !empty($field[$lang][$k]['title']) ? $field[$lang][$k]['title'] : $alt;
           $entity->{$field_name}[$lang][$k]['alt'] = $alt;
           $entity->{$field_name}[$lang][$k]['title'] = $title;
@@ -140,8 +140,8 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
 
     system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
 
-    $file->alt = $file->filename;
-    $file->title = $file->filename;
+    $file->alt = empty($file->alt) ? "" : $file->alt;
+    $file->title = empty($file->title) ? "" : $file->title;
 
     file_save($file);
 
