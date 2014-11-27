@@ -1,6 +1,6 @@
 # Stanford Webservices Content Importer
 
-@version 7.x-1.0-alpha3
+@version 7.x-1.0
 
 @author <sheamck@stanford.edu> Shea McKinney
 

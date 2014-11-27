@@ -1,6 +1,10 @@
 # Stanford Sites Content Importer
 -------------------------------------------
 
+7.x-1.0 2014-11-27
+-------------------------
+- BASIC-1088 | Changed alt default to empty instead of filename
+
 7.x-1.0-alpha3 2014-10-23
 -------------------------
 - $field_collection->save() protection for field collection items that fail to be imported
