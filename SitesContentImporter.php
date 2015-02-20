@@ -22,6 +22,7 @@ require_once "ImporterFieldProcessorTaxonomyTermReference.php";
 require_once "ImporterFieldProcessorText.php";
 require_once "ImporterFieldProcessorTextLong.php";
 require_once "ImporterFieldProcessorTextWithSummary.php";
+require_once "ImporterFieldProcessorEntityreference.php";
 
 // Property Processors.
 require_once "ImporterPropertyProcessorUid.php";
