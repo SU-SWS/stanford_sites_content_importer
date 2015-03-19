@@ -504,7 +504,7 @@ class SitesContentImporter {
       }
 
       // Add the plugin and remove the bid.
-      $plugin_settings = array();
+      $plugin_settings = bean_fetch_plugin_info($bean['type']);
       $bean['plugin'] = new $bean_types[$bean['type']]['handler']['class']($plugin_settings);
       unset($bean['bid']);
       unset($bean['vid']);
