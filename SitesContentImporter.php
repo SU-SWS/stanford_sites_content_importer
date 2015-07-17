@@ -247,7 +247,7 @@ class SitesContentImporter {
   public function add_field_processor($values = array()) {
     $field_reg = $this->get_field_registry();
     foreach ($values as $field => $processor) {
-      $prop_reg[$field][] = $processor;
+      $field_reg[$field][] = $processor;
     }
     $this->set_registry('field', $field_reg);
   }
@@ -281,7 +281,7 @@ class SitesContentImporter {
             continue;
           }
         }
-        else if (isset($field_reg[$field_name])) {
+        if (isset($field_reg[$field_name])) {
           // If there are registered field processors then loop through them.
           foreach ($field_reg[$field_name] as $processor_name) {
 
