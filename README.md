@@ -101,10 +101,10 @@ http://sites.stanford.edu/jsa-content
 
 **Nodes By Views & Filters**
 
-    $filters = array('field_s_sites_products_tid' => array('37'));
+    $filters = array('tid_raw' => array('37'));
     $view_importer = new SitesContentImporterViews();
     $view_importer->set_endpoint($endpoint);
-    $view_importer->set_resource('view-content');
+    $view_importer->set_resource('content');
     $view_importer->set_filters($filters);
     $view_importer->import_content_by_views_and_filters();
 
