@@ -689,7 +689,6 @@ class SitesContentImporter {
     }
 
     $this->importer_process_nodes_by_uuids($ids);
-
   }
 
   /**
