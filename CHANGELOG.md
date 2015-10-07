@@ -1,5 +1,6 @@
 # Stanford Sites Content Importer
 -------------------------------------------
+- Added code climate checking to this repository
 
 7.x-1.1 2015-03-19
 --------------------------
