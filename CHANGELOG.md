@@ -1,5 +1,6 @@
 # Stanford Sites Content Importer
 -------------------------------------------
+- Code climate configuration
 
 7.x-1.1 2015-03-19
 --------------------------
