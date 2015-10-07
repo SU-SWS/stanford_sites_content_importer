@@ -9,7 +9,7 @@
 class ImporterFieldProcessorImage extends ImporterFieldProcessorFile {
 
   /**
-   * [process description]
+   * Wrapper process for the parent function.
    * @param  [type] $entity      [description]
    * @param  [type] $entity_type [description]
    * @param  [type] $field_name  [description]
