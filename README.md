@@ -1,5 +1,7 @@
 # Stanford Webservices Content Importer
 
+<a href="https://codeclimate.com/github/SU-SWS/stanford_sites_content_importer"><img src="https://codeclimate.com/github/SU-SWS/stanford_sites_content_importer/badges/gpa.svg" /></a>
+
 @version 7.x-1.0
 
 @author <sheamck@stanford.edu> Shea McKinney
