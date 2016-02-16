@@ -136,7 +136,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
       file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
     }
 
-    $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $file_path;
+    $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . rawurlencode($file_path);
 
     system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
 
