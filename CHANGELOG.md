@@ -1,7 +1,7 @@
 # Stanford Sites Content Importer
 -------------------------------------------
 
-7.x-1.1+12-dev 2016-02-18
+7.x-1.1+14-dev 2016-02-18
 --------------------------
 - Updated documentation
 - Create .codeclimate.yml
