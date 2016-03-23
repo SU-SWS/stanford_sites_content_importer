@@ -504,6 +504,7 @@ class SitesContentImporter {
       }
 
       // Add the plugin and remove the bid.
+      print_r($bean);
       print_r($bean['type']);
       $plugin_settings = bean_fetch_plugin_info($bean['type']);
       print_r($plugin_settings);
