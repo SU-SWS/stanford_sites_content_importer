@@ -120,7 +120,7 @@ class ImporterFieldProcessorFieldCollection extends ImporterFieldProcessor {
 
     // Die if no content.
     if (!$data) {
-      throw new Exception("Could Not Fetch Field Colelction Item: " . $uuid);
+      throw new Exception("Could Not Fetch Field Collection Item: " . $uuid);
     }
 
     // Remove previous id.
