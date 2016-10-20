@@ -100,7 +100,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
    * @param  [type] $uuid [description]
    * @return [type]       [description]
    */
-  protected function process_field_file_create_item($uuid) {
+  public function process_field_file_create_item($uuid) {
     // Endpoint will almost always be the hardcoded one.
     $endpoint = $this->get_endpoint();
 
