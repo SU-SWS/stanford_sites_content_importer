@@ -1,7 +1,12 @@
 <?php
 /**
  * @file
- * @author  Shea McKinney <sheamck@stanford.edu>
+ * Content Import by Views Resource.
+ *
+ * Contains a class file that allows for fetching and receiving content from
+ * the view based services resource.
+ *
+ * @author Shea McKinney <sheamck@stanford.edu>
  */
 
 /**
