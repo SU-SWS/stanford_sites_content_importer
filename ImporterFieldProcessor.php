@@ -17,7 +17,11 @@ abstract class ImporterFieldProcessor {
   // Endpoint.
   protected $endpoint;
 
-  // Processed items storage.
+  /**
+   * A storage variable for saveing arbitrary data.
+   *
+   * @var array
+   */
   static protected $processStorage = array();
 
   /**
