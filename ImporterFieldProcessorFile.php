@@ -114,6 +114,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
    *   The fully saved file object.
    */
   protected function processFieldFileCreateItem($uuid) {
+
     // Endpoint will almost always be the hardcoded one.
     $endpoint = $this->getEndpoint();
 
