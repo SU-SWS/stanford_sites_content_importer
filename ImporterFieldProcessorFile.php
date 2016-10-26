@@ -36,7 +36,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
    *   The field on $entity that is being processed.
    */
   protected function processFieldFile(&$entity, $entity_type, $field_name) {
-    $files = $this->get_storage('processed_files');
+    $files = $this->getStorage('processed_files');
     $field = $entity->{$field_name};
 
     // Load into the array of tracked ids the new ones.
@@ -62,7 +62,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
       }
       else {
         try {
-          $file = $this->process_field_file_create_item($uuid, $entity, $entity_type);
+          $file = $this->processFieldFileCreateItem($uuid, $entity, $entity_type);
         }
         catch (Exception $e) {
           watchdog('ImporterFieldProcessorFile', $e->getMessage(), array(), WATCHDOG_NOTICE);
@@ -76,7 +76,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
       }
     }
 
-    $this->set_storage('processed_files', $files);
+    $this->setStorage('processed_files', $files);
 
     // All of the items we have already have been keyed at this point. Now we
     // need to loop through the field and update the values.

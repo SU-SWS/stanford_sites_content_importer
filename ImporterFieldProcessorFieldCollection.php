@@ -39,12 +39,12 @@ class ImporterFieldProcessorFieldCollection extends ImporterFieldProcessor {
 
     if ($key == "field_collections") {
       $static_values = &drupal_static('ImporterFieldProcessorFieldCollection', array());
-      $static_values = $this->get_storage($key);
+      $static_values = $this->getStorage($key);
     }
 
     if ($key == "field_collections_patch_later") {
       $static_values = &drupal_static('ImporterFieldProcessorFieldCollectionPatchLater', array());
-      $static_values = $this->get_storage($key);
+      $static_values = $this->getStorage($key);
     }
   }
 
