@@ -1,7 +1,8 @@
 <?php
 /**
  * @file
- * Sites Content Importer
+ * Sites Content Importer.
+ *
  * Saves content from a Drupal services REST server.
  *
  * @author Shea McKinney <sheamck@stanford.edu>
@@ -32,7 +33,7 @@ include_once "SitesContentImporterViews.php";
 
 
 /**
- * Content Importer class
+ * Content Importer class.
  */
 class SitesContentImporter {
 
@@ -40,115 +41,148 @@ class SitesContentImporter {
   protected $resource;
   protected $arguments;
   protected $method;
-  protected $process_storage = array();
-  protected $bean_uuids = array();
-  protected $content_types = array();
+  protected $processStorage = array();
+  protected $beanUuids = array();
+  protected $contentTypes = array();
   protected $restrictions = array();
-  protected $restricted_vocabularies = array();
-  protected $response_format_type = ".json";
+  protected $restrictedVocabularies = array();
+  protected $responseFormatType = ".json";
   protected $registry = array('property' => array(), 'field' => array());
 
   /**
-   * [__construct description]
-   * @return {[type]} [description]
+   * Constructor.
+   *
+   * Nothing fancy here.
    */
   public function __construct() {
     // Nothing to see here.
   }
 
   /**
-   * [get_response_format_type description]
-   * @return [type] [description]
+   * Returns response format type.
+   *
+   * The type of format you wish to receive from the content server. This can
+   * be .json or .xml typically.
+   *
+   * @return string
+   *   The format type. eg: .json.
    */
-  public function get_response_format_type() {
-    return $this->response_format_type;
+  public function getResponseFormatType() {
+    return $this->responseFormatType;
   }
 
   /**
-   * [set_response_format_type description]
-   * @param string $type [description]
+   * Set the desired response format type from the content server.
+   *
+   * @param string $type
+   *   The type of response document you wish to return.
+   *
+   * @return bool
+   *   FALSE if not valid.
    */
-  public function set_response_format_type($type = ".json") {
+  public function setResponseFormatType($type = ".json") {
     if (!is_string($type)) {
       return FALSE;
     }
-    $this->response_format_type = $type;
+    $this->responseFormatType = $type;
   }
 
   /**
-   * [set_endpoint description]
-   * @param [type] $endpoint [description]
+   * Set the endpoint of the content server in which to interact with.
+   *
+   * @param string $endpoint
+   *   A url for the endpoint of the content server.
+   *   eg: https://sites.stanford.edu/jsa-content/jsa-install.
    */
-  public function set_endpoint($endpoint) {
+  public function setEndpoint($endpoint) {
     $this->endpoint = $endpoint;
   }
 
   /**
-   * [get_endpoint description]
-   * @return [type] [description]
+   * Return the endpoint of the content server.
+   *
+   * @return string
+   *   The url of the content server endpoint.
    */
-  public function get_endpoint() {
+  public function getEndpoint() {
     return $this->endpoint;
   }
 
   /**
-   * [set_storage description]
-   * @param [type] $key   [description]
-   * @param [type] $value [description]
+   * Arbitrary data storage set method.
+   *
+   * @param string $key
+   *   The associated key with the value store.
+   * @param mixed $value
+   *   The data to store at $key.
    */
-  protected function set_storage($key, $value) {
-    $this->process_storage[$key] = $value;
+  protected function setStorage($key, $value) {
+    $this->processStorage[$key] = $value;
   }
 
   /**
-   * [get_storage description]
-   * @param  [type] $key [description]
-   * @return [type]      [description]
+   * Get data out of the arbitrary data store.
+   *
+   * @param string $key
+   *   The index key for the data you wish to return.
+   *
+   * @return mixed
+   *   The value of $key
    */
-  public function get_storage($key) {
+  public function getStorage($key) {
 
     if ($key == "all") {
-      return $this->process_storage;
+      return $this->processStorage;
     }
 
-    if (isset($this->process_storage[$key])) {
-      return $this->process_storage[$key];
+    if (isset($this->processStorage[$key])) {
+      return $this->processStorage[$key];
     }
 
     return array();
   }
 
   /**
-   * [add_import_content_type description]
-   * @param string $type [description]
+   * Add a content type to the types that are going to be imported.
+   *
+   * When importing by content type you can add any number of types you wish to
+   * import. The most recent 20 items of each type will be imported.
+   *
+   * @param string $type
+   *   The content type bundle name.
    */
-  public function add_import_content_type($type = '') {
+  public function addImportContentType($type = '') {
 
     if (is_array($type)) {
       $type = array_flip($type);
-      $this->content_types = array_merge($this->content_types, $type);
+      $this->contentTypes = array_merge($this->contentTypes, $type);
     }
     else {
-      $this->content_type[$type] = $type;
+      $this->contentType[$type] = $type;
     }
 
   }
 
   /**
-   * [remove_import_content_type description]
-   * @param  string $type [description]
-   * @return [type]       [description]
+   * Remove a content type from being imported.
+   *
+   * @param string $type
+   *   The bundle name of the content type.
    */
-  public function remove_import_content_type($type = '') {
-    unset($this->content_types[$type]);
+  public function removeImportContentType($type = '') {
+    unset($this->contentTypes[$type]);
   }
 
   /**
-   * [get_import_content_types description]
-   * @return [type] [description]
+   * Return all of the content types that are to be imported.
+   *
+   * Content types are set with setImportContentType.
+   *
+   * @return arrary
+   *   An array of bundle names.
    */
-  public function get_import_content_types() {
-    return $this->content_types;
+  public function getImportContentTypes() {
+    return $this->contentTypes;
   }
 
   /**
@@ -780,5 +814,3 @@ class SitesContentImporter {
 
 
 }
-
-

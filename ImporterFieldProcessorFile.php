@@ -1,32 +1,41 @@
 <?php
 /**
  * @file
+ * A class to process File fields.
  */
 
-/**
- *
- */
+ /**
+  * Importer Field Processor for file fields.
+  */
 class ImporterFieldProcessorFile extends ImporterFieldProcessor {
 
   /**
-   * [process description]
-   * @param  [type] $entity      [description]
-   * @param  [type] $entity_type [description]
-   * @param  [type] $field_name  [description]
-   * @return [type]              [description]
+   * Process a file field.
+   *
+   * Make any neccessary chagnes to this field before saving it.
+   *
+   * @param object $entity
+   *   The entity to be saved.
+   * @param string $entity_type
+   *   The type of entity in $entity.
+   * @param string $field_name
+   *   The field on $entity that is being processed.
    */
   public function process(&$entity, $entity_type, $field_name) {
-    $this->process_field_file($entity, $entity_type, $field_name);
+    $this->processFieldFile($entity, $entity_type, $field_name);
   }
 
-    /**
-   * [process_field_file description]
-   * @param  [type] $entity      [description]
-   * @param  [type] $entity_type [description]
-   * @param  [type] $field_name  [description]
-   * @return [type]              [description]
+  /**
+   * Proccess a file field.
+   *
+   * @param object $entity
+   *   The entity to be saved.
+   * @param string $entity_type
+   *   The type of entity in $entity.
+   * @param string $field_name
+   *   The field on $entity that is being processed.
    */
-  protected function process_field_file(&$entity, $entity_type, $field_name) {
+  protected function processFieldFile(&$entity, $entity_type, $field_name) {
     $files = $this->get_storage('processed_files');
     $field = $entity->{$field_name};
 
@@ -55,7 +64,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
         try {
           $file = $this->process_field_file_create_item($uuid, $entity, $entity_type);
         }
-        catch(Exception $e) {
+        catch (Exception $e) {
           watchdog('ImporterFieldProcessorFile', $e->getMessage(), array(), WATCHDOG_NOTICE);
           if (function_exists('drush_log')) {
             drush_log($e->getMessage(), 'error');
@@ -96,13 +105,17 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
   }
 
   /**
-   * [process_field_file_create description]
-   * @param  [type] $uuid [description]
-   * @return [type]       [description]
+   * Fetch and save the file from the content server.
+   *
+   * @param string $uuid
+   *   The UUID of the file.
+   *
+   * @return object
+   *   The fully saved file object.
    */
-  protected function process_field_file_create_item($uuid) {
+  protected function processFieldFileCreateItem($uuid) {
     // Endpoint will almost always be the hardcoded one.
-    $endpoint = $this->get_endpoint();
+    $endpoint = $this->getEndpoint();
 
     // Ask nicely for content.
     $result = drupal_http_request($endpoint . "/file/" . $uuid, array('headers' => array('Accept' => 'application/json')));
