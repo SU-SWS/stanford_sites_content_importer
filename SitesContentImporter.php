@@ -758,7 +758,6 @@ class SitesContentImporter {
    *
    * Requests and saves the most recent content by content type. Due to a bug
    * in the services module only the last 20 items can be fetched.
-   *
    */
   public function importerContentNodesRecentByType() {
     $endpoint = $this->getEndpoint();
