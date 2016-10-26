@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * An interface for field procesors.
