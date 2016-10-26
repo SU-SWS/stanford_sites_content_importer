@@ -12,7 +12,7 @@ class ImporterFieldProcessorDatetime extends ImporterFieldProcessor {
   /**
    * Process a date time field.
    *
-   * Make an neccessary chagnes to this field before saving it.
+   * Make any neccessary chagnes to this field before saving it.
    *
    * @param object $entity
    *   The entity to be saved.

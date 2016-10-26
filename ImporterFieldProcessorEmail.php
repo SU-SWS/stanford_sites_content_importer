@@ -10,7 +10,7 @@
 class ImporterFieldProcessorEmail extends ImporterFieldProcessor {
 
   /**
-   * Process a date time field.
+   * Process any email field.
    *
    * Make an neccessary chagnes to this field before saving it.
    *
