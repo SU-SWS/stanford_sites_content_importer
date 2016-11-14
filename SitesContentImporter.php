@@ -283,12 +283,12 @@ class SitesContentImporter {
    * Register a property processor class.
    *
    * @param array $values
-   *   'key' => 'value' where key is the name of the property and
+   *   Array with 'key' => 'value' where key is the name of the property and
    *   value is the name of the php class to process it.
    *   eg: array(
    *     'status' => 'myPropertyProcessorStatus'
    *     'author' => 'myPropertyProcessorAuthor'
-   *   );
+   *   );.
    */
   public function addPropertyProcessor($values = array()) {
     $prop_reg = $this->getPropertyRegistry();
@@ -302,13 +302,13 @@ class SitesContentImporter {
    * Register a field processor class.
    *
    * @param array $values
-   *  'key' => 'value' where key is the name of the field and
+   *   Array with 'key' => 'value' where key is the name of the field and
    *   value is the name of the php class to process it.
    *   eg:
    *   array(
    *     'field_something_that' => 'myFieldProcessorThing'
    *     'field_other_field' => 'myOtherFieldProcessorThingy'
-   *   );
+   *   );.
    */
   public function addFieldProcessor($values = array()) {
     $field_reg = $this->getFieldRegistry();
@@ -808,7 +808,7 @@ class SitesContentImporter {
    * and process them.
    *
    * @param array $ids
-   *   $ids[uuid] = $id_array;
+   *   Array in the form of: $ids[uuid] = $id_array;.
    */
   public function importerProcessNodesByUuids($ids) {
 
