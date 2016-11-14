@@ -1,6 +1,6 @@
 # Stanford Webservices Content Importer
 
-@version 7.x-1.0
+@version 7.x-2.0
 
 @author <sheamck@stanford.edu> Shea McKinney
 
@@ -127,5 +127,3 @@ PHPClass needs to be a field or property processor that extends ImporterFieldPro
 
     require_once "ImporterPropertyProcessorTrimAlias.php";
     $view_importer->add_property_processor(array('url_alias' => 'ImporterPropertyProcessorTrimAlias'));
-
-
