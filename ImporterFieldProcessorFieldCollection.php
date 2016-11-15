@@ -35,7 +35,7 @@ class ImporterFieldProcessorFieldCollection extends ImporterFieldProcessor {
    *   The value for the $key.
    */
   public function setStorage($key, $value) {
-    parent::set_storage($key, $value);
+    parent::setStorage($key, $value);
 
     if ($key == "field_collections") {
       $static_values = &drupal_static('ImporterFieldProcessorFieldCollection', array());

@@ -71,7 +71,7 @@ class SitesContentImporterViews extends SitesContentImporter {
    * @param array $filters
    *   A key -> value array of filters to use as request parameters.
    */
-  public function setSilters($filters = array()) {
+  public function setFilters($filters = array()) {
     $this->filters = $filters;
   }
 
