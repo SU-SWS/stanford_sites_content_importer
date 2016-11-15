@@ -646,7 +646,7 @@ class SitesContentImporter {
    * @return array
    *   An array of vocabulary machine names.
    */
-  public function getGestrictedVocabularies() {
+  public function getRestrictedVocabularies() {
     return $this->restrictedVocabularies;
   }
 
