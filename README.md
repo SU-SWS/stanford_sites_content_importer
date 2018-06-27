@@ -1,5 +1,5 @@
 #[Stanford Sites Content Importer](https://github.com/SU-SWS/stanford_sites_content_importer)
-##### Version: 7.x-2.0-dev
+##### Version: 7.x-2.1
 
 # Stanford Webservices Content Importer
 @author <sheamck@stanford.edu> Shea McKinney
