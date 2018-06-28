@@ -1,5 +1,5 @@
 [Stanford Sites Content Importer](https://github.com/SU-SWS/stanford_sites_content_importer)
-##### Version: 7.x-2.1
+##### Version: 7.x-2.x-dev
 
 # Stanford Webservices Content Importer
 Maintainers: [sherakama](https://github.com/sherakama)
