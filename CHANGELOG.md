@@ -4,6 +4,7 @@
 7.x-2.1 2018-06-27
 -------------------
 - Added composer.json
+- Markdown formatting in README
 
 7.x-2.0 2016-11-29
 ------------------
