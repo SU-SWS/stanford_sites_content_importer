@@ -1,22 +1,22 @@
-#[Stanford Sites Content Importer](https://github.com/SU-SWS/stanford_sites_content_importer)
-##### Version: 7.x-2.0-dev
+[Stanford Sites Content Importer](https://github.com/SU-SWS/stanford_sites_content_importer)
+##### Version: 7.x-2.1
 
 # Stanford Webservices Content Importer
-@author <sheamck@stanford.edu> Shea McKinney
+Maintainers: [sherakama](https://github.com/sherakama)
 
-##What does this do?
+## What does this do?
 
-This collection of classes works with Stanford Webservices' content server.
+This collection of classes works with Stanford Web Services' content server.
 
-##Requirements
+## Requirements
 
 A content server set up with services and UUID.
 
-##Example Server
+## Example Server
 
-http://sites.stanford.edu/jsa-content
+https://sites.stanford.edu/jsa-content
 
-##Files
+## Files
 
 * ImporterFieldProcessor.php
 	* Needs Description.
@@ -50,7 +50,7 @@ http://sites.stanford.edu/jsa-content
 	* Needs Description.
 
 
-##Example Usage
+## Example Usage
 
 **Nodes:**
 
@@ -109,7 +109,7 @@ http://sites.stanford.edu/jsa-content
     $view_importer->importContentByViewsAndFilters();
 
 
-##Extending
+## Extending
 
 You can add your own field processors by extending the ImporterFieldProcessor
 class with your own. The naming convention that the processor looks for is:
