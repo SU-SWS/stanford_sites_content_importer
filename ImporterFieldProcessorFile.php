@@ -157,7 +157,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
 
     $clean_path = implode("/", $urlparts);
 
-    $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $clean_path;
+    $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/jsa-content/files/" . $clean_path;
 
     system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
 
