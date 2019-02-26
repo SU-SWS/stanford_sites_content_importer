@@ -160,7 +160,7 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
     // Try to fetch from the ACE environment first.
     $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/jsa-content/files/" . $clean_path;
     $fetch_success = system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
-   
+
     // If the file download fails, try the SITES 1.x file path.
     if(!$fetch_success) {
       $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $clean_path;
