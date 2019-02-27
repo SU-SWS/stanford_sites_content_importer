@@ -165,12 +165,16 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
     if(!$fetch_success) {
       $file = (object) $data;
       $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $clean_path;
-      system_retrieve_file($url, $file->uri, FALSE, FILE_EXISTS_REPLACE);
+      $fetch_success = system_retrieve_file($url, $file->uri, FALSE, FILE_EXISTS_REPLACE);
     }
 
+    if (!$fetch_success) {
+      watchdog('ImporterFieldProcessorFile', "FAILED TO FETCH REMOTE FILE: !url", [ "!url" => $url ], WATCHDOG_ERROR);
+      return FALSE; 
+    }
+   
     $file->alt = empty($file->alt) ? "" : $file->alt;
     $file->title = empty($file->title) ? "" : $file->title;
-
     file_save($file);
 
     return $file;
