@@ -159,24 +159,22 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
 
     // Try to fetch from the ACE environment first.
     $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/jsa-content/files/" . $clean_path;
-    $fetch_success = system_retrieve_file($url, $file->uri, FALSE, FILE_EXISTS_REPLACE);
+    $result = drupal_http_request($url);
+
+    if ($result->code == 200) {
+      system_retrieve_file($url, $file->uri, FALSE, FILE_EXISTS_REPLACE);
+    }
 
     // If the file download fails, try the SITES 1.x file path.
-    if(!$fetch_success) {
-      $file = (object) $data;
+    if($result->code != 200) {
       $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $clean_path;
-      $fetch_success = system_retrieve_file($url, $file->uri, FALSE, FILE_EXISTS_REPLACE);
+      system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
     }
 
-    if (!$fetch_success) {
-      watchdog('ImporterFieldProcessorFile', "FAILED TO FETCH REMOTE FILE: !url", [ "!url" => $url ], WATCHDOG_ERROR);
-      return FALSE; 
-    }
-   
     $file->alt = empty($file->alt) ? "" : $file->alt;
     $file->title = empty($file->title) ? "" : $file->title;
-    file_save($file);
 
+    file_save($file);
     return $file;
   }
 
