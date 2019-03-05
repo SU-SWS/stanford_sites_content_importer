@@ -157,15 +157,24 @@ class ImporterFieldProcessorFile extends ImporterFieldProcessor {
 
     $clean_path = implode("/", $urlparts);
 
-    $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $clean_path;
+    // Try to fetch from the ACE environment first.
+    $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/jsa-content/files/" . $clean_path;
+    $result = drupal_http_request($url);
 
-    system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
+    if ($result->code == 200) {
+      system_retrieve_file($url, $file->uri, FALSE, FILE_EXISTS_REPLACE);
+    }
+
+    // If the file download fails, try the SITES 1.x file path.
+    if($result->code != 200) {
+      $url = $pend['scheme'] . "://" . $pend['host'] . $base_path . "/sites/default/files/" . $clean_path;
+      system_retrieve_file($url, $file->uri, 0, FILE_EXISTS_REPLACE);
+    }
 
     $file->alt = empty($file->alt) ? "" : $file->alt;
     $file->title = empty($file->title) ? "" : $file->title;
 
     file_save($file);
-
     return $file;
   }
 

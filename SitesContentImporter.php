@@ -820,7 +820,6 @@ class SitesContentImporter {
     $response_format_type = $this->getResponseFormatType();
 
     foreach ($ids as $uuid => $other_ids) {
-
       if ($this->isRestrictedUuid($uuid)) {
         watchdog('SitesContentImporter', 'Did not import restricted UUID: %s', array("%s" => $uuid), WATCHDOG_NOTICE);
         if (function_exists('drush_log')) {
