@@ -611,8 +611,6 @@ class SitesContentImporter {
       $this->processProperties($bean, 'bean');
       $this->processPropertiesCustom($bean, 'bean');
 
-
-
       // Field Collections are awful things and can only be saved right before the entity that they are attached to is
       // saved. We stored them for later saving and must do that now.
       $this->saveFieldCollections();
