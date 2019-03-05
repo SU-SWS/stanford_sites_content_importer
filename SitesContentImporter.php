@@ -611,6 +611,8 @@ class SitesContentImporter {
       $this->processProperties($bean, 'bean');
       $this->processPropertiesCustom($bean, 'bean');
 
+
+
       // Field Collections are awful things and can only be saved right before the entity that they are attached to is
       // saved. We stored them for later saving and must do that now.
       $this->saveFieldCollections();
@@ -820,7 +822,6 @@ class SitesContentImporter {
     $response_format_type = $this->getResponseFormatType();
 
     foreach ($ids as $uuid => $other_ids) {
-
       if ($this->isRestrictedUuid($uuid)) {
         watchdog('SitesContentImporter', 'Did not import restricted UUID: %s', array("%s" => $uuid), WATCHDOG_NOTICE);
         if (function_exists('drush_log')) {

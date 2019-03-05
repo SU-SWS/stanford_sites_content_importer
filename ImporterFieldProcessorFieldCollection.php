@@ -138,7 +138,13 @@ class ImporterFieldProcessorFieldCollection extends ImporterFieldProcessor {
     $endpoint = $this->getEndpoint();
 
     // Ask nicely for content.
-    $result = drupal_http_request($endpoint . "/field_collection_item/" . $uuid, array('headers' => array('Accept' => 'application/json')));
+    $result = drupal_http_request($endpoint . "/field_collection/" . $uuid, array('headers' => array('Accept' => 'application/json')));
+
+    // Endpoint changes...?
+    if ($result->code !== "200") {
+      $result = drupal_http_request($endpoint . "/field_collection_item/" . $uuid, array('headers' => array('Accept' => 'application/json')));
+    }
+
     $data = ($result->code == "200") ? drupal_json_decode($result->data) : FALSE;
 
     // Die if no content.
@@ -148,6 +154,11 @@ class ImporterFieldProcessorFieldCollection extends ImporterFieldProcessor {
 
     // Remove previous id.
     unset($data['item_id']);
+    unset($data['revision_id']);
+    unset($data['default_revision']);
+    unset($data['archived']);
+    unset($data['path']);
+    unset($data['uuid']);
 
     // Create a new field collection with the data the server provided.
     $fc = entity_create('field_collection_item', $data);

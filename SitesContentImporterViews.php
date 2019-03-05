@@ -58,7 +58,21 @@ class SitesContentImporterViews extends SitesContentImporter {
     }
 
     foreach ($data as $k => $id_array) {
-      $ids[$id_array['node_uuid']] = $id_array;
+      if (isset($id_array['node_uuid'])) {
+        $ids[$id_array['node_uuid']] = $id_array;
+      }
+      else if (isset($id_array['node uuid'])) {
+        $ids[$id_array['node uuid']] = $id_array;
+      }
+      else if (isset($id_array['Node_UUID'])) {
+        $ids[$id_array['Node_UUID']] = $id_array;
+      }
+      else if (isset($id_array['Node UUID'])) {
+        $ids[$id_array['Node UUID']] = $id_array;
+      }
+      else {
+        drush_log('No node_uuids found.', 'debug');
+      }
     }
 
     $this->importerProcessNodesByUuids($ids);
