@@ -1,6 +1,10 @@
 # Stanford Sites Content Importer
 -------------------------------------------
 
+7.x-2.2 2019-03-05
+------------------
+- Updates to file paths for moving jsa-content to StanfordPro
+
 7.x-2.1 2018-06-27
 -------------------
 - Added composer.json
